@@ -1,4 +1,4 @@
-package com.example.bookingSystemAPI;
+package com.francopaiz.bookingSystemAPI;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

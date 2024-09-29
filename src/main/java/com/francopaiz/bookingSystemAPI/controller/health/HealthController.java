@@ -1,4 +1,4 @@
-package com.example.bookingSystemAPI.controller.health;
+package com.francopaiz.bookingSystemAPI.controller.health;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
