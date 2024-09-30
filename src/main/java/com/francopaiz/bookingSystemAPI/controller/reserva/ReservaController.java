@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservas")
@@ -16,30 +15,28 @@ public class ReservaController {
     @Autowired
     private ReservaService reservaService;
 
-    @PostMapping
-    public ResponseEntity<Reserva> crearReserva(@RequestBody Reserva reserva) {
-        return ResponseEntity.ok(reservaService.crearReserva(reserva));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Reserva> obtenerReservaPorId(@PathVariable String id) {
-        Optional<Reserva> reserva = reservaService.obtenerReservaPorId(id);
-        return reserva.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @GetMapping
-    public List<Reserva> obtenerTodasLasReservas() {
-        return reservaService.obtenerTodasLasReservas();
+    public List<Reserva> findAll() {
+        return reservaService.findAll();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Reserva> actualizarReserva(@PathVariable String id, @RequestBody Reserva reserva) {
-        return ResponseEntity.ok(reservaService.actualizarReserva(id, reserva));
+    @GetMapping("/{idReserva}")
+    public Reserva findById(@PathVariable String idReserva) {
+        return reservaService.findById(idReserva);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarReserva(@PathVariable String id) {
-        reservaService.eliminarReserva(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping
+    public Reserva save(@RequestBody Reserva reserva) {
+        return reservaService.save(reserva);
+    }
+
+    @PutMapping("/{idReserva}")
+    public Reserva update(@PathVariable String idReserva, @RequestBody Reserva reserva) {
+        return reservaService.update(idReserva, reserva);
+    }
+
+    @DeleteMapping("/{idReserva}")
+    public void deleteById(@PathVariable String idReserva) {
+        reservaService.deleteById(idReserva);
     }
 }

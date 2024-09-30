@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReservaService {
-    Reserva crearReserva(Reserva reserva);
-    Optional<Reserva> obtenerReservaPorId(String id);
-    List<Reserva> obtenerTodasLasReservas();
-    Reserva actualizarReserva(String id, Reserva reserva);
-    void eliminarReserva(String id);
+    List<Reserva> findAll();
+    Reserva findById(String id);
+    Reserva save(Reserva reserva);
+    Reserva update(String id, Reserva reserva);
+    void deleteById(String id);
 }
