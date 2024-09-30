@@ -11,33 +11,45 @@ import java.util.Optional;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
 
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Override
-    public Usuario crearUsuario(Usuario usuario) {
-        return usuarioRepository.guardar(usuario);
-    }
-
-
 
     @Override
-    public Optional<Usuario> obtenerUsuarioPorId(String id) {
-        return usuarioRepository.obtenerPorId(id);
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
     }
 
     @Override
-    public List<Usuario> obtenerTodosLosUsuarios() {
-        return usuarioRepository.obtenerTodos();
+    public Usuario findById(String id) {
+        return usuarioRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Usuario actualizarUsuario(String id, Usuario usuario) {
-        return usuarioRepository.guardar(usuario);
+    public Usuario save(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     @Override
-    public void eliminarUsuario(String id) {
-        usuarioRepository.eliminar(id);
+    public Usuario update(String id, Usuario usuario) {
+        Usuario existingUser = usuarioRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Usuario no encontrado"));
+
+        if (usuario.getNombre() != null){
+            existingUser.setNombre(usuario.getNombre());
+        }
+        if (usuario.getCorreo() != null){
+            existingUser.setCorreo(usuario.getCorreo());
+        }
+        if (usuario.getTelefono() != null){
+            existingUser.setTelefono(usuario.getTelefono());
+        }
+
+        return usuarioRepository.save(existingUser);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        usuarioRepository.deleteById(id);
     }
 }

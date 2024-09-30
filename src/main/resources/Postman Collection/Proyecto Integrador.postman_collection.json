@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Franco Paiz\",\r\n    \"correo\": \"franco@mail.com\",\r\n    \"telefono\": \"12345678\" \r\n}",
+							"raw": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Franco Paiz\",\r\n    \"correo\": \"franco@mail.com\",\r\n    \"password\": \"franco123\",\r\n    \"telefono\": \"12345678\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -87,7 +87,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Franco Paiz\",\r\n    \"correo\": \"fpaiz@mail.com\",\r\n    \"telefono\": \"12345678\" \r\n}",
+							"raw": "{\r\n    \"id\": \"1\",\r\n    \"nombre\": \"Franco Alejandro Paiz\",\r\n    \"correo\": \"fpaiz@mail.com\",\r\n    \"password\":\"frnaco1234\",\r\n    \"telefono\": \"12345678\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -234,7 +234,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": \"1\",\r\n    \"usuarioId\": \"1\",\r\n    \"ubicacion\": \"Hotel Valle Dorado\",\r\n    \"costo\": 1500.00\r\n}",
+							"raw": "{\r\n    \"id\": \"1\",\r\n    \"usuarioId\": \"1\",\r\n    \"ubicacion\": \"Hotel Barceló\",\r\n    \"costo\": 1600.00\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -16,30 +15,28 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario){
-        return ResponseEntity.ok(usuarioService.crearUsuario(usuario));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable String id){
-        Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorId(id);
-        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @GetMapping
-    public List<Usuario> obtenerTodosLosUsuarios(){
-        return usuarioService.obtenerTodosLosUsuarios();
+    public List<Usuario> findAll(){
+        return usuarioService.findAll();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable String id, @RequestBody Usuario usuario){
-        return ResponseEntity.ok(usuarioService.actualizarUsuario(id, usuario));
+    @GetMapping("/{idUsuario}")
+    public Usuario findById(@PathVariable String idUsuario){
+        return usuarioService.findById(idUsuario);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarUsuario(@PathVariable String id){
-        usuarioService.eliminarUsuario(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping()
+    public Usuario save( @RequestBody Usuario usuario){
+        return usuarioService.save(usuario);
+    }
+
+    @PutMapping("/{idUsuario}")
+    public Usuario update(@PathVariable String idUsuario, @RequestBody Usuario usuario){
+        return usuarioService.update(idUsuario, usuario);
+    }
+
+    @DeleteMapping("/{idUsuario}")
+    public void deleteById(@PathVariable String idUsuario){
+        usuarioService.deleteById(idUsuario);
     }
 }
