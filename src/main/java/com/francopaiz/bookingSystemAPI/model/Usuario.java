@@ -11,6 +11,7 @@ public class Usuario {
     private String  id;
     private String nombre;
     private String correo;
+    private String username;
     private String password;
     private String telefono;
 
@@ -52,6 +53,14 @@ public class Usuario {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
