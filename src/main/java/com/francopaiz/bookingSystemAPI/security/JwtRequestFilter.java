@@ -1,6 +1,7 @@
 package com.francopaiz.bookingSystemAPI.security;
 
 import com.francopaiz.bookingSystemAPI.security.jwt.JwtUtil;
+import com.francopaiz.bookingSystemAPI.service.usuario.UsuarioService;
 import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +28,7 @@ import java.util.List;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UsuarioService userDetailsService;
 
     @Autowired
     private JwtUtil jwtUtil;

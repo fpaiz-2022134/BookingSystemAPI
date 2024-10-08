@@ -3,6 +3,7 @@ package com.francopaiz.bookingSystemAPI.service.usuario;
 import com.francopaiz.bookingSystemAPI.model.Usuario;
 import com.francopaiz.bookingSystemAPI.repository.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,4 +53,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void deleteById(String id) {
         usuarioRepository.deleteById(id);
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return null;
+    }
+
+
 }
