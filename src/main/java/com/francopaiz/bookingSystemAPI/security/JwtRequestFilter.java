@@ -1,22 +1,14 @@
 package com.francopaiz.bookingSystemAPI.security;
-
-import com.francopaiz.bookingSystemAPI.security.jwt.JwtUtil;
-import com.francopaiz.bookingSystemAPI.service.usuario.UsuarioService;
 import io.jsonwebtoken.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,35 +19,62 @@ import java.util.List;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UsuarioService userDetailsService;
+    private final String secret;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    public JwtRequestFilter(@Value("${security.jwt.secret.key}") String secret) {
+        this.secret = secret;
+    }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        final String authorizationHeader = request.getHeader("Authorization");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        String username = null;
-        String jwt = null;
+        if (request.getRequestURI().equals("/api/v1/auth")
+                || request.getRequestURI().equals("/health")
+                || request.getRequestURI().startsWith("/swagger")
+                || request.getRequestURI().startsWith("/v3/api-docs")
+            //|| request.getRequestURI().equals("/api/v1/user")
+        ){
+            filterChain.doFilter(request, response);
+        } else if (HttpMethod.OPTIONS.name().equals(request.getMethod())){
+            System.out.println("Primera comparacion: " + HttpMethod.OPTIONS.name());
+            System.out.println("Segunda comparacion: " + request.getMethod());
+            response.setStatus(HttpServletResponse.SC_OK);
+            filterChain.doFilter(request, response);
+        } else {
+            try {
+                if (authHeader == null || !authHeader.startsWith("Bearer ")){
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Missing or wrong token");
+                    return;
+                }
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+                String token = authHeader.substring(7);
+                Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+                //Jws<Claims> claims = Jwts.parser().setSigningKey(secret).build().parseSignedClaims(token);
+                Claims claimsBody = claims.getBody();
+                String subject = claimsBody.getSubject();
+                List<String> roles = claims.getBody().get("ada_roles", ArrayList.class);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+                if (roles == null){
+                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Missing or wrong token");
+                    return;
+                }
 
-            if (jwtUtil.validateToken(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                TokenAuthentication authentication = new TokenAuthentication(token, subject, roles);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                request.setAttribute("claims", claimsBody);
+                request.setAttribute("jwtUserId", subject);
+                request.setAttribute("jwtUserRoles", roles);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (MalformedJwtException e){
+                response.sendError(HttpStatus.BAD_REQUEST.value(), "Missing or wrong token");
+            } catch (ExpiredJwtException | SignatureException e){
+                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Token expired or malformed");
             }
+
+            filterChain.doFilter(request, response);
         }
-        chain.doFilter(request, response);
     }
 }

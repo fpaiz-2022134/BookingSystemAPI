@@ -1,5 +1,6 @@
 package com.francopaiz.bookingSystemAPI.service.usuario;
 
+import com.francopaiz.bookingSystemAPI.dto.UserRepositoryDto;
 import com.francopaiz.bookingSystemAPI.model.Reserva;
 import com.francopaiz.bookingSystemAPI.model.Usuario;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,5 +16,6 @@ public interface UsuarioService {
     Usuario update(String id, Usuario usuario);
     void deleteById(String id);
 
-    UserDetails loadUserByUsername(String username);
+
+
 }

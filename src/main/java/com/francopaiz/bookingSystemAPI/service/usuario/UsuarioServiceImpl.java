@@ -1,5 +1,6 @@
 package com.francopaiz.bookingSystemAPI.service.usuario;
 
+import com.francopaiz.bookingSystemAPI.dto.UserRepositoryDto;
 import com.francopaiz.bookingSystemAPI.model.Usuario;
 import com.francopaiz.bookingSystemAPI.repository.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +55,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        return null;
-    }
+
 
 
 }
