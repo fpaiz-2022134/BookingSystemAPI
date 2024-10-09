@@ -1,6 +1,5 @@
 package com.francopaiz.bookingSystemAPI.dto.user;
 
-import com.francopaiz.bookingSystemAPI.model.Usuario;
 import com.postgre.sql.model.mongo.UserMongo;
 import com.postgre.sql.model.sql.User;
 import com.postgre.sql.repository.UserRepository;
@@ -17,7 +16,7 @@ public class UserCreatedDto implements Serializable {
     private String email;
     private LocalDateTime dateCreation;
 
-    public UserCreatedDto(Usuario user){
+    public UserCreatedDto(User user){
         this.idUser = String.valueOf(user.getIdUser());
         this.username = user.getUsername();
         this.email = user.getEmail();
