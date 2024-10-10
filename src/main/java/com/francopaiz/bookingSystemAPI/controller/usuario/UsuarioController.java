@@ -1,37 +1,37 @@
 package com.francopaiz.bookingSystemAPI.controller.usuario;
 
-import com.francopaiz.bookingSystemAPI.model.Usuario;
-import com.francopaiz.bookingSystemAPI.service.usuario.UsuarioService;
+import com.francopaiz.bookingSystemAPI.model.user.User;
+
+import com.francopaiz.bookingSystemAPI.service.usuario.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService usuarioService;
 
     @GetMapping
-    public List<Usuario> findAll(){
+    public List<User> findAll(){
         return usuarioService.findAll();
     }
 
     @GetMapping("/{idUsuario}")
-    public Usuario findById(@PathVariable String idUsuario){
+    public User findById(@PathVariable String idUsuario){
         return usuarioService.findById(idUsuario);
     }
 
     @PostMapping()
-    public Usuario save( @RequestBody Usuario usuario){
+    public User save( @RequestBody User usuario){
         return usuarioService.save(usuario);
     }
 
     @PutMapping("/{idUsuario}")
-    public Usuario update(@PathVariable String idUsuario, @RequestBody Usuario usuario){
+    public User update(@PathVariable String idUsuario, @RequestBody User usuario){
         return usuarioService.update(idUsuario, usuario);
     }
 

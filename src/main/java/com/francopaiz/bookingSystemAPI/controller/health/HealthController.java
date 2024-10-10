@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HealthController {
 
-    @GetMapping("/health")
+    @GetMapping("/api/v1/health")
     public String checkAPI(){
 
          return "<h1>The API is working ok!</h1>";
