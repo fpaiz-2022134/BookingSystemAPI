@@ -47,7 +47,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/v1/health", "/api/v1/auth" ).permitAll()
+                        .requestMatchers("/api/v1/health", "/api/v1/auth"/*, "/api/v1/usuarios/**"*/).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

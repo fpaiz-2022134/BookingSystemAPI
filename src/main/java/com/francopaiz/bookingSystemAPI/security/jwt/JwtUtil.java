@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class JwtUtil {
     public TokenDto generateToken(String username, List<RoleEnum> roles) {
 
         Date expirationDate = jwtConfig.getExpirationDate();
-        String token = Jwts.builder().subject(username)
-                .issuedAt(new Date())
-                .expiration(expirationDate)
+        String token = Jwts.builder().setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(expirationDate)
                 .claim(CLAIMS_ROLES_KEY, roles)
                 .signWith(jwtConfig.getSigningKey())
                 .compact();
@@ -41,11 +42,11 @@ public class JwtUtil {
     }
 
     public Claims extractAndVerifyClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(jwtConfig.getSigningKey())
+        return Jwts.parserBuilder()
+                .setSigningKey(jwtConfig.getSigningKey()) // Utiliza la clave de firma
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseClaimsJws(token) // Analiza el JWT
+                .getBody(); // Obtiene los claims (información dentro del token)
     }
 
 
@@ -56,6 +57,11 @@ public class JwtUtil {
             String username = claims.getSubject();
             Date expirationDate = claims.getExpiration();
 
+            /*List<String> roles = claims.get("ada_roles", ArrayList.class);
+            if (roles == null || roles.isEmpty()) {
+                System.out.println("User has no roles assigned.");
+            }
+*/
             // Verifica si el token pertenece al usuario correcto y no ha expirado
             boolean isExpired = isTokenExpired(expirationDate);
             System.out.println("Token is expired: " + isExpired);
