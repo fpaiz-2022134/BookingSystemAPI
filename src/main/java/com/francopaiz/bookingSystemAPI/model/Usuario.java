@@ -8,16 +8,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class Usuario {
 
     @Id
-    private String  id;
+    private String id;
     private String nombre;
-    private String correo;
+    private String email;
     private String password;
     private String telefono;
 
-    public Usuario(String id, String nombre, String correo, String password, String telefono) {
+    public Usuario() {
+    }
+
+    public Usuario(String id, String nombre, String email, String password, String telefono) {
         this.id = id;
         this.nombre = nombre;
-        this.correo = correo;
+        this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);
         this.telefono = telefono;
     }
@@ -38,12 +41,21 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        // Aplicar cifrado de BCrypt siempre que se cambie la contraseña
+        this.password = new BCryptPasswordEncoder().encode(password);
     }
 
     public String getTelefono() {
@@ -54,11 +66,4 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
-    }
 }
