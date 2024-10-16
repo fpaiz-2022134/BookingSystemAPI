@@ -38,8 +38,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuario.getNombre() != null){
             existingUser.setNombre(usuario.getNombre());
         }
-        if (usuario.getCorreo() != null){
-            existingUser.setCorreo(usuario.getCorreo());
+        if (usuario.getEmail() != null){
+            existingUser.setEmail(usuario.getEmail());
         }
         if (usuario.getTelefono() != null){
             existingUser.setTelefono(usuario.getTelefono());
