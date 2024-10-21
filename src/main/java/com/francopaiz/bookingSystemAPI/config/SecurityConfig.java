@@ -21,6 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/health").permitAll()
                         .requestMatchers("/auth/**").permitAll()  // Permitir acceso a /usuarios sin autenticación
                         .requestMatchers("/api/v1/reservas/**").authenticated()
                         .requestMatchers("/api/v1/usuarios/**").authenticated()
