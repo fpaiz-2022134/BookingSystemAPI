@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends MongoRepository<Usuario, String> {  // Cambia a JpaRepository si usas JPA
+public interface UsuarioRepository extends MongoRepository<Usuario, String> {
     Usuario findByEmail(String email);
 }

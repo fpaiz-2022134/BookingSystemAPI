@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()  // Permitir acceso a /usuarios sin autenticación
                         .requestMatchers("/api/v1/reservas/**").authenticated()
-                        .requestMatchers("/api/v1/usuarios/**").authenticated()/// Requerir autenticación para /reservas
+                        .requestMatchers("/api/v1/usuarios/**").authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
