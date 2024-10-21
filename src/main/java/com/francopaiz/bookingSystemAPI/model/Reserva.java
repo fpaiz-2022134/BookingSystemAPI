@@ -15,8 +15,7 @@ public class Reserva {
     private String ubicacion;
     private double costo;
 
-    public Reserva(String id, String usuarioId, String ubicacion, double costo) {
-        this.id = id;
+    public Reserva( String usuarioId, String ubicacion, double costo) {
         this.usuarioId = usuarioId;
         this.fechaReserva = LocalDateTime.now();
         this.ubicacion = ubicacion;

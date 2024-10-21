@@ -17,8 +17,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String id, String nombre, String email, String password, String telefono) {
-        this.id = id;
+    public Usuario(String nombre, String email, String password, String telefono) {
         this.nombre = nombre;
         this.email = email;
         this.password = new BCryptPasswordEncoder().encode(password);

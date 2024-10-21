@@ -11,28 +11,30 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        // Extraer el token del encabezado con clave 'token'
+        // Extract the token from the header with the key 'token'
         String token = request.getHeader("token");
-        // Validar token y autenticar usuario
+        // Validate the token and authenticate the user
         if (token != null && jwtTokenUtil.validateToken(token)) {
             String userId = jwtTokenUtil.getUserIdFromToken(token);
-            // Crear objeto de autenticación
+            // Create authentication object
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userId, null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            // Establecer la autenticación en el contexto de seguridad
+            // Set the authentication in the security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);
     }
-    // Método para extraer el token del header
+    // Method to extract the token from the header
     private String extractJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
