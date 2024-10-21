@@ -15,6 +15,9 @@ public class AuthService {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     public String login(String email, String password) {
         Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null) {
+            throw new RuntimeException("Invalid credentials");
+        }
         System.out.println(password + "  /   "+ usuario.getPassword());
         if (usuario != null && passwordEncoder.matches(password, usuario.getPassword())) {
             System.out.println(usuario);
